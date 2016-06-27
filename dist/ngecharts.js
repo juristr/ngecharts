@@ -1,5 +1,20 @@
-const angular = require('./node_modules/angular/angular.min.js');
-const echarts = require('./node_modules/echarts/dist/echarts.min');
+(function (root, factory) {
+    if (typeof require === 'function' && typeof exports === 'object') {
+        // CommonJS
+        var angular = require('./node_modules/angular/angular.min.js');
+        var echarts = require('./node_modules/echarts/dist/echarts.min');
+
+        exports.ngecharts = factory(angular, echarts);
+    } else if (typeof define === 'function' && define.amd) {
+        // AMD.
+        define(['angular', 'echarts'], function (angular, echarts) {
+            return root.ngecharts = factory(angular, echarts);
+        });
+    } else {
+        // Browser globals
+        root.ngecharts = factory(root.angular, root.echarts);
+    }
+}(this, function (angular, echarts) {
 
 var app = angular.module('ngecharts', []);
 
@@ -39,4 +54,4 @@ function buildLinkFunc($window) {
         })
     };
 }
-
+}));
